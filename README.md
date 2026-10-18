@@ -1,24 +1,24 @@
-# Spire Atlas V1.02 — Single-file GitHub Pages release
+# Spire Atlas V1.03 — correct buff-adjusted damage by difficulty
 
-**Fix: missing enemies and mobile layout.** V1.01 separated HTML, JavaScript and stylesheets, so sites where only `index.html` was uploaded showed an empty enemy list and unformatted combat controls. V1.02 embeds the entire JavaScript, CSS and original region illustrations directly inside `index.html`.
+This is a **single-file GitHub Pages release**. Upload/replace **`index.html`** in your existing GitHub Pages repository root. No changes to other files are needed. After publishing, check that the footer reads **V1.03**. If Safari is showing a stale page, append `?v=103` to its URL.
 
-## Update your GitHub Pages website
+## Why the statue displayed 23 instead of 25
 
-1. Download the ZIP and extract it.
-2. Open the existing GitHub repository. In its root folder, upload **`index.html`** from this release, replacing the old `index.html` (use **Upload files** and confirm the overwrite/commit). There are no dependencies on `app.js`, `styles.css` or an `assets` folder.
-3. Wait for GitHub Pages to deploy. On iPhone, refresh Safari; if it still shows the old version, open the page in a new Private tab or append `?v=102` to the URL to bypass the old cached page.
-4. Look for `V1.02` in the page footer. You should immediately see seven example enemies in the selector, even without online database access. With internet access, the bestiary loads more monsters from the public community data source.
+The Bygone Effigy (`BYGONE_EFFIGY`) has **13 base damage normally** and **15 base damage at Ascension 9+**. It gains **+10 Strength** before attacking, making the actual unmodified single-hit damage **23 normal** or **25 A9+**. The original site always started in Normal mode and did not display the other total beside the main result. Source: https://sts.wiki/enemies/bygone-effigy
 
-The source list is https://raw.githubusercontent.com/ptrlrd/spire-codex/main/data/eng/monsters.json ; creature portraits are referenced from https://spire-codex.com/static/images/monsters/ and require connectivity. The full bestiary depends on that external source being reachable; only the seven bundled examples are offline. Update from the **↻ Retry** button if your connection was offline during startup.
+## V1.03 changes
 
-## What changed in V1.02
+- A **Normal / A0–8** vs **Ascension 9+** two-option picker now appears beside each enemy's attack preview. Tap the one matching your run.
+- Both options show their *final damage including all previous recorded Strength* plus the base damage and buff formula. For multi-hit attacks, final damage totals cover all hits.
+- The large damage readout, move list, turn timeline and detailed views follow the selected damage difficulty.
+- The smaller enemy move rows show the alternate difficulty's damage when it differs.
+- The A9+ checkbox at the top, the readout picker, and the drawer checkbox stay synchronized, and the preference persists across reloads.
+- Fixed edge handling for missing `damage.normal` values (do not accidentally treat null as 0 damage).
 
-- One HTML file does everything: style, enemy selector, floor tracker, region illustrations and Strength tracking.
-- All-region enemy list by default. You can filter by region and by Normal/Elite/Boss.
-- In-place loading status with a retry button, clearer offline example messaging.
-- Additional narrow-screen spacing fixes for iPhone.
-- Continues to use the same localStorage key as V1.01 so run progress and combat notes remain saved on the same browser/domain.
+## Other details
 
-Strength calculations are documented self-applied Strength plus manual adjustments. Multi-hit attacks gain Strength on each hit. This does not account for every game effect or predict random/conditional enemy moves. Always confirm in-game intent.
+Recorded enemy Strength buffs add +1 damage **per hit**, so +3 Strength applied to a `5 × 2` attack produces `8 × 2 = 16` total. A self-buff on the current action is applied to following actions only. Conditional/random enemy choices still require selecting/recording the move actually used. The app doesn't factor every possible status or player defense into the estimate. Always compare against the in-game enemy intent.
 
-Unofficial fan project; not affiliated with Mega Crit. Enemy move data: https://github.com/ptrlrd/spire-codex .
+All CSS/JavaScript and custom region illustrations are embedded in `index.html`; the full bestiary and creature portraits require an online community data source, with seven included examples offline. Locally saved run progress from V1.02 is preserved.
+
+Unofficial fan project, not affiliated with Mega Crit.

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#160e14">
   <meta name="description" content="A fan-made Slay the Spire 2 run tracker and enemy move guide, designed for mobile and GitHub Pages.">
-  <title>Spire Atlas V1.02 — Slay the Spire 2 Companion</title>
+  <title>Spire Atlas V1.03 — Slay the Spire 2 Companion</title>
   <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMxMDE3MjIiLz48cGF0aCBkPSJNMzIgNiA1MiAyOCAzNiAyNiA0OCA1NCAyMCAzNyAyOCAyOSAxMiAyN1oiIGZpbGw9IiNlNmI2NmQiLz48cGF0aCBkPSJNMzIgMTIgMzAgMzQgNDAgNDQiIHN0cm9rZT0iI2ZmZTBhMCIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+PC9zdmc+Cg==" type="image/svg+xml">
   <style>
 :root{color-scheme:dark;--bg:#0c1018;--sidebar:#0c121a;--surface:#161d28;--surface2:#1a2230;--line:#293341;--text:#f0ede6;--muted:#9aabb6;--dim:#63737f;--gold:#e7b66d;--goldlight:#ffd999;--emerald:#93c8ac;--danger:#f7a48d;--shadow:0 16px 55px rgba(0,0,0,.22)}
@@ -144,6 +144,22 @@ h1,h2,h3{color:#fff0d5;text-shadow:0 2px 3px #12080d}
 @media(max-width:700px){body{padding-bottom:72px}.sidebar{background:#231724fa;border-top:2px solid #956c59}.nav-menu{grid-template-columns:repeat(4,1fr)}.nav-link{font-family:'DM Sans',sans-serif;font-size:9px;padding:6px 1px;gap:2px}.nav-icon{font-size:19px}.topbar-track{font-size:10px;padding:6px 8px}.topbar{padding:10px 14px}.combat-header{align-items:stretch;flex-direction:column;gap:12px;margin-bottom:14px}.combat-header h1{font-size:28px;margin:6px 0}.combat-header p{font-size:11px}.compass-button{align-self:stretch;padding:7px 12px}.compass-button>span:first-child{font-size:23px}.combat-layout{gap:11px}.combat-stage{height:290px}.stage-topline{font-size:8px;padding:14px 15px;letter-spacing:.5px}.stage-corner{font-size:8px;padding:3px}.stage-intent{left:18px;top:68px;padding:5px 7px;max-width:155px}.stage-intent div strong{font-size:9px}.stage-intent-icon{font-size:19px}.stage-art{inset:35px 0 35px}.stage-art img{max-height:220px;max-width:73%}.stage-nameplate{padding:7px 13px 15px}.stage-nameplate h2{font-size:21px}.combat-readout{padding:15px 13px}.readout-upper h2{font-size:18px}.readout-upper p{font-size:11px}.damage-sigil{min-width:104px;min-height:98px}.damage-sigil strong{font-size:23px}.damage-sigil small{font-size:8px}.damage-sigil span{font-size:8px}.strength-row{padding:10px;gap:8px}.strength-medallion{width:34px;height:34px;flex-basis:34px;font-size:22px}.strength-row strong{font-size:13px}.strength-row small{font-size:9px}.strength-row .mini-label{letter-spacing:.5px;font-size:8px}.other-str-control{padding-left:8px}.other-str-control>div{gap:4px}.other-str-control button{width:25px;height:27px}.combat-mode-row{gap:6px}.mode-switch button{font-size:10px;padding:7px}.combat-turn-box strong{font-size:19px}.combat-turn-box>div{gap:5px}.combat-turn-box button{width:26px;height:27px}.combat-timeline-panel,.combat-possible{padding:15px 12px}.combat-timeline-step{flex-basis:96px;min-height:109px}.combat-section-title h2{font-size:16px}.combat-move-row{grid-template-columns:33px minmax(0,1fr) auto;padding:9px;gap:7px}.combat-move-glyph{width:30px;height:33px;font-size:19px}.combat-move-power strong{font-size:12px}.combat-move-power small{font-size:9px}.combat-log-move{grid-column:2/-1}.topbar-sub{display:none}.footer{padding-bottom:18px}.tracker-grid .run-panel{padding:16px}}
 @media(max-width:380px){.readout-upper{gap:5px}.damage-sigil{min-width:92px}.combat-mode-row{flex-wrap:wrap}.combat-turn-box{text-align:left;display:flex;align-items:center;gap:9px}.combat-turn-box>div{margin-top:0}.combat-move-row{grid-template-columns:29px minmax(0,1fr)}.combat-move-power{grid-column:2;justify-content:flex-start;text-align:left}.combat-log-move{grid-column:2;justify-self:start}.topbar-track{font-size:0}.topbar-track:first-letter{font-size:18px}}
 
+
+/* Both documented base-damage difficulties are always shown after existing buffs.
+   The selected one drives the main damage total; this does not alter saved turns. */
+.difficulty-comparison{border:1px solid #735561;border-radius:8px;padding:12px;margin:0 0 14px;background:linear-gradient(125deg,#241a26,#191421)}
+.difficulty-label{display:flex;align-items:baseline;justify-content:space-between;gap:9px;margin-bottom:9px}
+.difficulty-label span:last-child{font-size:10px;color:#baadae;line-height:1.45}
+.difficulty-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.difficulty-option{border:1px solid #675462;border-radius:6px;background:#201b26;color:#e5cbbb;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:11px 13px;text-align:left;min-width:0}
+.difficulty-option:hover{border-color:#d9ad75;background:#41303a}
+.difficulty-option[aria-pressed="true"]{border:2px solid #e3ad70;background:linear-gradient(110deg,#614139,#392731);padding:10px 12px;box-shadow:inset 0 0 0 1px #e3ad705c}
+.difficulty-option>span{font-size:10px;font-weight:800;letter-spacing:.8px;color:#e7c29a}
+.difficulty-option strong{font:700 23px Cinzel,Georgia,serif;line-height:1.25;color:#fff0d9}
+.difficulty-option small{font-size:10px;color:#cdbbb5;line-height:1.4;overflow-wrap:anywhere}
+.difficulty-option[aria-pressed="true"]>span::before{content:'✓ ';color:#ffd48c}
+@media(max-width:700px){.difficulty-comparison{padding:10px;margin-bottom:11px}.difficulty-label{display:block}.difficulty-label span:last-child{display:block;margin-top:4px;font-size:9px}.difficulty-options{gap:7px}.difficulty-option{padding:9px 8px}.difficulty-option[aria-pressed="true"]{padding:8px 7px}.difficulty-option>span{font-size:9px}.difficulty-option strong{font-size:20px}.difficulty-option small{font-size:9px}}
+
 /* Floor tracking is an independent view, not part of the combat dashboard. */
 .tracker-page-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}.back-to-moves{border:1px solid #b89063;color:#f4d6a1;background:#45313b;border-radius:6px;font-size:11px;font-weight:800;padding:9px 12px}.back-to-moves:hover{background:#6c454b}.combat-stage{background-color:#20151e}
 @media(max-width:700px){.tracker-page-top{margin-bottom:12px}.tracker-page-top .mini-label{font-size:8px;letter-spacing:.7px}.back-to-moves{padding:7px;font-size:10px}}
@@ -159,7 +175,7 @@ h1,h2,h3{color:#fff0d5;text-shadow:0 2px 3px #12080d}
 @media(max-width:700px){.combat-header-actions{width:100%;justify-content:space-between;flex-wrap:nowrap}.asc-switch{flex:0 1 auto;font-size:9px;padding:8px 6px;white-space:normal;line-height:1.2}.asc-switch input{flex:0 0 17px}.compass-button{flex:1 1 auto}.combat-header{gap:11px}}
 @media(max-width:380px){.asc-switch{font-size:8px}.combat-header-actions{gap:6px}}
 
-/* V1.02: single-file mobile fix, clear enemy data status, no external CSS dependency */
+/* V1.03: explicit normal/A9+ attack damage mode and buff-adjusted comparison */
 .combat-data-strip{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px;padding:9px 7px;background:#30232f;border:1px solid #795f63;border-radius:6px;color:#ebc9b1;font-size:10px;line-height:1.35}
 .combat-data-strip span{min-width:0;flex:1}.combat-data-strip button{border:1px solid #a98469;color:#ffe1ab;background:#4b343a;border-radius:4px;padding:6px 8px;white-space:nowrap;font-weight:800;font-size:10px}
 @media(max-width:700px){.combat-data-strip{font-size:11px;padding:8px}.combat-header h1{font-size:clamp(25px,7vw,33px)}.combat-header-actions{gap:8px}.combat-header-actions>*{min-width:0}.combat-roster-head{padding-bottom:10px}.roster-enemy{min-width:185px}.combat-region{min-width:0}}
@@ -202,7 +218,7 @@ h1,h2,h3{color:#fff0d5;text-shadow:0 2px 3px #12080d}
       <main id="combatView" class="page combat-page">
         <div class="combat-header">
           <div><span class="mini-label">BESTIARY // COMBAT INTELLIGENCE</span><h1>Know their next move<span class="title-mark">✦</span></h1><p>Study attack cycles, log actual moves, and see Strength buffs carry into later hits.</p></div>
-          <div class="combat-header-actions"><label class="asc-switch"><input type="checkbox" id="combatAscToggle"><span>ASCENSION 9+ DAMAGE</span></label><button id="combatTrackerLink" class="compass-button" type="button"><span>⌖</span><span>OPEN FLOOR TRACKER<small id="combatLocation">ACT I · FLOOR 01</small></span><span>›</span></button></div>
+          <div class="combat-header-actions"><label class="asc-switch"><input type="checkbox" id="combatAscToggle"><span>USE ASCENSION 9+ BASE DAMAGE</span></label><button id="combatTrackerLink" class="compass-button" type="button"><span>⌖</span><span>OPEN FLOOR TRACKER<small id="combatLocation">ACT I · FLOOR 01</small></span><span>›</span></button></div>
         </div>
         <div class="combat-layout">
           <section class="combat-roster panel" aria-label="Choose an enemy">
@@ -225,6 +241,13 @@ h1,h2,h3{color:#fff0d5;text-shadow:0 2px 3px #12080d}
             <section class="combat-readout panel" id="combatReadout" aria-live="polite">
               <div class="readout-upper"><div><span class="mini-label">THE NEXT ACTION</span><h2 id="combatNextMove">Select an enemy to begin</h2><p id="combatMoveInfo">Known patterns and possible attacks will appear here.</p></div><div class="damage-sigil"><small id="combatDamageCaption">INCOMING</small><strong id="combatDamage">—</strong><span id="combatDamageUnits">DAMAGE</span></div></div>
               <div class="damage-breakdown" id="combatDamageBreakdown">Damage preview includes previous Strength buffs where the sequence is documented.</div>
+              <div class="difficulty-comparison" role="group" aria-label="Select enemy attack damage difficulty">
+                <div class="difficulty-label"><span class="mini-label">BASE DAMAGE RULES</span><span id="combatDifficultyHelp">Choose the values that match your run. Buffs apply to both.</span></div>
+                <div class="difficulty-options">
+                  <button id="combatBaseNormal" class="difficulty-option" type="button" aria-pressed="true"><span>NORMAL / A0–8</span><strong id="combatNormalTotal">—</strong><small id="combatNormalFormula">Normal attack values</small></button>
+                  <button id="combatBaseAsc" class="difficulty-option" type="button" aria-pressed="false"><span>ASCENSION 9+</span><strong id="combatAscTotal">—</strong><small id="combatAscFormula">Higher attack values</small></button>
+                </div>
+              </div>
               <div class="strength-row"><div class="strength-medallion">✣</div><div><span class="mini-label">ENEMY STRENGTH BEFORE THIS TURN</span><strong id="combatStrength">+0 Strength</strong><small id="combatBuffSummary">No Strength buffs recorded.</small></div><div class="other-str-control" title="Extra Strength from cards or other unlisted effects (not the buffs already tracked)"><span>OTHER STR</span><div><button id="extraStrengthMinus" aria-label="Decrease other Strength">−</button><strong id="extraStrengthValue">0</strong><button id="extraStrengthPlus" aria-label="Increase other Strength">+</button></div></div></div>
               <div class="combat-mode-row"><div><span class="mini-label">PATTERN MODE</span><div class="mode-switch" id="combatModeSwitch"><button type="button" data-mode="auto" class="selected">Documented cycle</button><button type="button" data-mode="manual">Record moves</button></div></div><div class="combat-turn-box"><span class="mini-label">COMBAT TURN</span><div><button type="button" id="combatPrev" aria-label="Previous turn">−</button><strong id="combatTurn">1</strong><button type="button" id="combatNext" aria-label="Next turn">+</button></div></div></div>
               <p id="combatUncertainty" class="combat-uncertainty">Select an opponent. Conditional and random moves cannot be predicted.</p>
@@ -276,7 +299,7 @@ h1,h2,h3{color:#fff0d5;text-shadow:0 2px 3px #12080d}
         <section class="panel sources-panel"><h2>Data and artwork</h2><p>Enemy information is requested from <a href="https://github.com/ptrlrd/spire-codex" target="_blank" rel="noopener noreferrer">Spire Codex</a> (public community game-data reference) when online. Creature images load from the source's image CDN. The four region illustrations included in this project are custom SVG artwork. A smaller offline sample keeps the tracker and example enemies usable if the database is unavailable.</p><p>Game information and creature art belong to <a href="https://www.megacrit.com/" target="_blank" rel="noopener noreferrer">Mega Crit</a>. This unofficial fan tool is not endorsed by them. Recheck move values after game patches. <a href="https://slaythespire.wiki.gg/wiki/Slay_the_Spire_2:Monsters" target="_blank" rel="noopener noreferrer">Community wiki ↗</a></p><div class="settings-line"><label for="ascToggle">Show Ascension 9+ damage where available</label><input id="ascToggle" type="checkbox"></div><div class="settings-line"><span>Update enemy data</span><button id="refreshData" class="outline-button small">Refresh database</button></div></section>
       </main>
 
-      <footer class="footer"><span>SPIRE ATLAS · UNOFFICIAL FAN COMPANION · GITHUB PAGES</span><span>V1.02</span></footer>
+      <footer class="footer"><span>SPIRE ATLAS · UNOFFICIAL FAN COMPANION · GITHUB PAGES</span><span>V1.03</span></footer>
     </div>
   </div>
 
@@ -299,7 +322,7 @@ h1,h2,h3{color:#fff0d5;text-shadow:0 2px 3px #12080d}
   </aside>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
-/* Spire Atlas · V1.02 — a static, privacy-friendly Slay the Spire 2 fan companion.
+/* Spire Atlas · V1.03 — a static, privacy-friendly Slay the Spire 2 fan companion.
    Live monster data: https://github.com/ptrlrd/spire-codex (see README for attribution).
    All user input is stored locally; this app cannot read your in-game save/map. */
 (() => {
@@ -452,11 +475,11 @@ h1,h2,h3{color:#fff0d5;text-shadow:0 2px 3px #12080d}
     const turn=auto?session.turn:session.history.length+1;
     return {session,auto,path,history,strength,strengthGained,starting,move,turn,preview};
   }
-  function attackStats(move,strength){
+  function attackStats(move,strength,high=state.ascension){
     if(!move?.damage)return null;
-    const dmg=move.damage,raw=state.ascension?(dmg.ascension??dmg.normal):dmg.normal;
-    if(!Number.isFinite(Number(raw)))return null;
-    const count=state.ascension?(dmg.hit_count_ascension??dmg.hit_count??1):(dmg.hit_count??1);
+    const dmg=move.damage,raw=high?(dmg.ascension??dmg.normal):dmg.normal;
+    if(raw===null||raw===undefined||!Number.isFinite(Number(raw)))return null;
+    const count=high?(dmg.hit_count_ascension??dmg.hit_count??1):(dmg.hit_count??1);
     const hits=clamp(Number(count)||1,1,99),base=Number(raw),perHit=Math.max(0,base+strength),total=perHit*hits;
     return {base,perHit,hits,total,adjust:strength,label:hits>1?`${perHit} × ${hits}`:`${perHit}`};
   }
@@ -521,12 +544,23 @@ h1,h2,h3{color:#fff0d5;text-shadow:0 2px 3px #12080d}
       if(urls.length)art.src=urls[pointer++];else art.removeAttribute('src');
     }
     const stats=attackStats(move,strength);
+    const normalStats=attackStats(move,strength,false);
+    const ascStats=attackStats(move,strength,true);
+    // Display both buff-adjusted totals. This prevents confusing a 13+10
+    // non-Ascension preview with its 15+10 Ascension 9+ counterpart.
+    byId('combatBaseNormal').setAttribute('aria-pressed',String(!state.ascension));
+    byId('combatBaseAsc').setAttribute('aria-pressed',String(state.ascension));
+    byId('combatNormalTotal').textContent=normalStats?`${normalStats.total} damage`:'—';
+    byId('combatAscTotal').textContent=ascStats?`${ascStats.total} damage`:'—';
+    byId('combatNormalFormula').textContent=normalStats?`${normalStats.base} base ${strength<0?'−':'+'} ${Math.abs(strength)} STR${normalStats.hits>1?' · '+normalStats.hits+' hits':''}`:'Normal attack values';
+    byId('combatAscFormula').textContent=ascStats?`${ascStats.base} base ${strength<0?'−':'+'} ${Math.abs(strength)} STR${ascStats.hits>1?' · '+ascStats.hits+' hits':''}`:'Ascension 9+ attack values';
+    byId('combatDifficultyHelp').textContent=stats&&normalStats&&ascStats&&normalStats.total!==ascStats.total?'The same prior Strength is included in both totals. Tap your difficulty.':'Select the base damage for your run. Previous Strength is included.';
     byId('combatIntentIcon').textContent=move?intentIcon(move.intent):'◇';
     byId('combatIntentText').textContent=preview?'WHAT IF · '+(move.intent||'Unknown').toUpperCase():move?(move.intent||'Unknown').toUpperCase():'CHECK IN-GAME INTENT';
     byId('combatNextMove').textContent=move?(move.name||move.id):'Move cannot be predicted';
     byId('combatMoveInfo').textContent=preview?`What-if preview · ${move.intent||'Unknown intent'} · NOT a prediction`:move?`${auto?'Documented action':'Documented opening move'} · ${move.intent||'Unknown intent'}`:'Tap Preview beside a possible move to see its buff-adjusted damage. Record moves after they happen.';
     byId('combatDamage').textContent=stats?stats.label:'—';
-    byId('combatDamageCaption').textContent=preview?'WHAT IF':move?'INCOMING':'UNKNOWN';
+    byId('combatDamageCaption').textContent=preview?'WHAT IF':move?(state.ascension?'A9+ INCOMING':'NORMAL INCOMING'):'UNKNOWN';
     byId('combatDamageUnits').textContent=stats?stats.hits>1?`${stats.total} TOTAL ${preview?'PREVIEW':'DAMAGE'}`:preview?'POSSIBLE DAMAGE':'DAMAGE':'NO CONFIRMED ATTACK';
     const gainedThisMove=strengthOnMove(move);
     byId('combatDamageBreakdown').textContent=stats
@@ -567,7 +601,10 @@ h1,h2,h3{color:#fff0d5;text-shadow:0 2px 3px #12080d}
       const sub=document.createElement('small');sub.textContent=mv.intent||'Unknown intent';textBox.append(label,sub);
       const power=document.createElement('div');power.className='combat-move-power';
       const hit=attackStats(mv,strength);const boost=strengthOnMove(mv);
-      if(hit){const dmg=document.createElement('strong');dmg.textContent=hit.label+' dmg';power.append(dmg);const base=document.createElement('small');base.textContent=`base ${hit.base}${strength?' · STR '+(strength>0?'+':'')+strength:''}`;power.append(base);}
+      if(hit){const dmg=document.createElement('strong');dmg.textContent=hit.label+' dmg';power.append(dmg);const base=document.createElement('small');base.textContent=`base ${hit.base}${strength?' · STR '+(strength>0?'+':'')+strength:''}`;power.append(base);
+        const alt=attackStats(mv,strength,!state.ascension);
+        if(alt&&alt.total!==hit.total){const comparison=document.createElement('small');comparison.textContent=`${state.ascension?'Normal':'A9+'}: ${alt.label} dmg`;comparison.className='alternate-damage';power.append(comparison);}
+      }
       if(boost){const tag=document.createElement('span');tag.className='combat-buff-tag';tag.textContent=`${boost>0?'+':''}${boost} STR ↗`;power.append(tag);}
       const other=(Array.isArray(mv.powers)?mv.powers:[]).filter(p=>safeText(p.power_id).toUpperCase()!=='STRENGTH'||p.target!=='self');
       for(const p of other){const pill=document.createElement('small');pill.className='combat-other-buff';pill.textContent=`${safeText(p.power_id).replaceAll('_',' ')} ${p.amount??''} · ${p.target||'effect'}`;power.append(pill);}
@@ -599,12 +636,22 @@ h1,h2,h3{color:#fff0d5;text-shadow:0 2px 3px #12080d}
   async function loadDatabase(force=false){if(!force){try{const cache=JSON.parse(localStorage.getItem(DB_CACHE)||'null');const parsed=normalizeData(cache?.items);if(parsed.length>=50)adoptData(parsed,'cache');}catch{}}
     for(const url of DATA_URLS){try{const items=normalizeData(await fetchWithTimeout(url));if(items.length<50)throw new Error('Incomplete database');adoptData(items,'live');try{localStorage.setItem(DB_CACHE,JSON.stringify({saved:Date.now(),items}));}catch{} if(force)toast(`Updated ${items.length} enemies`);return;}catch(e){console.warn('Enemy source unavailable:',url,e?.message||e);}}
     if(dataOrigin==='sample'){adoptData(SAMPLE,'sample');updateDataIndicator('7 included examples · full enemy list needs internet','offline');if(force)toast('Online database unavailable — 7 included examples still work');}else if(force)toast('Could not update — using cached data');}
+  function setAttackDifficulty(high){
+    state.ascension=!!high;
+    byId('ascToggle').checked=state.ascension;
+    byId('combatAscToggle').checked=state.ascension;
+    persist();
+    renderDetails();
+    renderCombat();
+  }
   function wire(){for(const r of REGIONS){const option=document.createElement('option');option.value=r.id;option.textContent=`${r.act} · ${r.short}`;byId('regionSelect').append(option);const extra=document.createElement('option');extra.value=r.id;extra.textContent=`${r.act} · ${r.short}`;byId('bestiaryRegion').append(extra);}
     const all=document.createElement('option');all.value='All';all.textContent='All regions';byId('bestiaryRegion').prepend(all);byId('bestiaryRegion').value='All';byId('regionNav').innerHTML=REGIONS.map(r=>`<button class="region-link" data-region="${r.id}"><span class="region-dot" style="background:${r.color}"></span><span class="region-label">${esc(r.short)}<small>${r.act}</small></span></button>`).join('');
     $$('.nav-link').forEach(b=>b.addEventListener('click',()=>switchView(b.dataset.view)));byId('homeBrand').addEventListener('click',e=>{e.preventDefault();switchView('combat');});byId('regionNav').addEventListener('click',e=>{const b=e.target.closest('[data-region]');if(!b)return;chooseRegion(b.dataset.region);switchView('combat');});byId('regionSelect').addEventListener('change',e=>chooseRegion(e.target.value));byId('floorMinus').addEventListener('click',()=>setFloor(activeFloor()-1));byId('floorPlus').addEventListener('click',()=>setFloor(activeFloor()+1));byId('floorInput').addEventListener('change',e=>setFloor(e.target.value));byId('floorTrack').addEventListener('click',e=>{const b=e.target.closest('[data-floor]');if(b)setFloor(Number(b.dataset.floor));});byId('roomPicker').addEventListener('click',e=>{const b=e.target.closest('[data-room]');if(b)setRoom(b.dataset.room);});byId('floorNotes').addEventListener('input',e=>{const k=roomKey();state.notes[k]=e.target.value.slice(0,4000);state.visited[k]=true;persist();});byId('clearRoute').addEventListener('click',()=>{const r=activeRegion();if(!confirm(`Clear notes, visited floors and room types for ${r.short}?`))return;for(const store of ['rooms','notes','visited'])for(const k of Object.keys(state[store]))if(k.startsWith(r.id+':'))delete state[store][k];persist();renderLocation();toast('Region notes cleared');});
     byId('allSearch').addEventListener('input',renderBestiary);byId('bestiaryRegion').addEventListener('change',renderBestiary);byId('bestiaryType').addEventListener('change',renderBestiary);
     for(const r of REGIONS){const option=document.createElement('option');option.value=r.id;option.textContent=`${r.act} · ${r.short}`;byId('combatRegion').append(option);}
     const allRegion=document.createElement('option');allRegion.value='All';allRegion.textContent='All regions';byId('combatRegion').prepend(allRegion);byId('combatRegion').value='All';
+    byId('combatBaseNormal').addEventListener('click',()=>setAttackDifficulty(false));
+    byId('combatBaseAsc').addEventListener('click',()=>setAttackDifficulty(true));
     byId('combatSearch').addEventListener('input',()=>{renderCombatRoster();renderCombat();});
     byId('combatRegion').addEventListener('change',()=>{renderCombatRoster();renderCombat();});
     $$('#combatFilters .filter').forEach(b=>b.addEventListener('click',()=>{combatFilter=b.dataset.filter;renderCombatRoster();renderCombat();}));
@@ -618,7 +665,7 @@ h1,h2,h3{color:#fff0d5;text-shadow:0 2px 3px #12080d}
     byId('combatReset').addEventListener('click',()=>{if(!selectedEnemy)return;const c=combatSession(selectedEnemy);c.turn=1;c.history=[];c.extraStrength=0;c.previewMove=null;persist();renderCombat();toast('Combat reset');});
     byId('extraStrengthMinus').addEventListener('click',()=>{if(!selectedEnemy)return;const c=combatSession(selectedEnemy);c.extraStrength=clamp(c.extraStrength-1,-999,999);persist();renderCombat();});
     byId('extraStrengthPlus').addEventListener('click',()=>{if(!selectedEnemy)return;const c=combatSession(selectedEnemy);c.extraStrength=clamp(c.extraStrength+1,-999,999);persist();renderCombat();});
-    byId('closeDetail').addEventListener('click',closeDetail);byId('detailBackdrop').addEventListener('click',closeDetail);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&activeEnemy)closeDetail();});byId('turnMinus').addEventListener('click',()=>{moveTurn=Math.max(1,moveTurn-1);renderDetails();});byId('turnPlus').addEventListener('click',()=>{moveTurn=Math.min(20,moveTurn+1);renderDetails();});byId('turnReset').addEventListener('click',()=>{moveTurn=1;renderDetails();});byId('ascToggle').checked=!!state.ascension;byId('combatAscToggle').checked=!!state.ascension;byId('ascToggle').addEventListener('change',e=>{state.ascension=e.target.checked;byId('combatAscToggle').checked=state.ascension;persist();renderDetails();renderCombat();});byId('combatAscToggle').addEventListener('change',e=>{state.ascension=e.target.checked;byId('ascToggle').checked=state.ascension;persist();renderDetails();renderCombat();});byId('refreshData').addEventListener('click',()=>{toast('Checking for updated enemy data…');loadDatabase(true);});byId('combatReload').addEventListener('click',()=>{updateDataIndicator('Refreshing enemy database…','offline');loadDatabase(true);});byId('helpButton').addEventListener('click',()=>switchView('about'));
+    byId('closeDetail').addEventListener('click',closeDetail);byId('detailBackdrop').addEventListener('click',closeDetail);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&activeEnemy)closeDetail();});byId('turnMinus').addEventListener('click',()=>{moveTurn=Math.max(1,moveTurn-1);renderDetails();});byId('turnPlus').addEventListener('click',()=>{moveTurn=Math.min(20,moveTurn+1);renderDetails();});byId('turnReset').addEventListener('click',()=>{moveTurn=1;renderDetails();});byId('ascToggle').checked=!!state.ascension;byId('combatAscToggle').checked=!!state.ascension;byId('ascToggle').addEventListener('change',e=>setAttackDifficulty(e.target.checked));byId('combatAscToggle').addEventListener('change',e=>setAttackDifficulty(e.target.checked));byId('refreshData').addEventListener('click',()=>{toast('Checking for updated enemy data…');loadDatabase(true);});byId('combatReload').addEventListener('click',()=>{updateDataIndicator('Refreshing enemy database…','offline');loadDatabase(true);});byId('helpButton').addEventListener('click',()=>switchView('about'));
   }
   wire();renderLocation();renderQuick();renderBestiary();renderCombatRoster();renderCombat();updateDataIndicator('7 included examples · loading the full enemy database…','offline');loadDatabase();
 })();
