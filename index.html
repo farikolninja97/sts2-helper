@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0d1017">
+  <meta name="description" content="A fan-made Slay the Spire 2 run tracker and enemy move guide, designed for mobile and GitHub Pages.">
+  <title>Spire Atlas — Slay the Spire 2 Companion</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a href="#" class="brand" id="homeBrand" aria-label="Spire Atlas home">
+        <span class="brand-emblem">✦</span><span class="brand-text">SPIRE <strong>ATLAS</strong><small>UNOFFICIAL STS2 COMPANION</small></span>
+      </a>
+      <div class="sidebar-label">YOUR COMPANION</div>
+      <nav class="nav-menu" aria-label="Views">
+        <button class="nav-link active" data-view="run"><span class="nav-icon">◈</span> Run tracker <span class="nav-arrow">›</span></button>
+        <button class="nav-link" data-view="bestiary"><span class="nav-icon">♜</span> Enemy bestiary <span class="nav-arrow">›</span></button>
+        <button class="nav-link" data-view="about"><span class="nav-icon">◇</span> Guide & sources <span class="nav-arrow">›</span></button>
+      </nav>
+      <div class="side-separator"></div>
+      <div class="sidebar-label">REGIONS</div>
+      <div class="region-nav" id="regionNav"></div>
+      <div class="side-bottom">
+        <span class="online-indicator" id="dataIndicator"><i></i><span>Loading enemy database…</span></span>
+        <p>Fan-made. Not affiliated with Mega Crit.</p>
+      </div>
+    </aside>
+
+    <div class="content-area">
+      <header class="topbar">
+        <div class="topbar-title"><span class="eyebrow">FIELD GUIDE / <span id="breadcrumb">YOUR RUN</span></span><div class="topbar-sub">Keep the next move in sight.</div></div>
+        <div class="topbar-actions">
+          <span class="save-chip" id="saveStatus">● Saved locally</span>
+          <button class="icon-button" id="helpButton" aria-label="How to use this guide" title="How to use">?</button>
+        </div>
+      </header>
+
+      <main id="runView" class="page">
+        <section class="hero" id="hero">
+          <img class="hero-image" id="heroImage" src="assets/overgrowth.svg" alt="Illustration of the current region">
+          <div class="hero-overlay"></div>
+          <div class="hero-copy"><span class="hero-kicker" id="heroAct">ACT I · PATH A</span><h1 id="heroName">The Overgrowth</h1><p id="heroDescription">A living labyrinth of tangled growth and restless creatures.</p></div>
+          <div class="hero-floor"><span>YOU ARE ON</span><strong>FLOOR <span id="heroFloor">01</span></strong></div>
+        </section>
+
+        <div class="section-grid">
+          <section class="panel run-panel">
+            <div class="panel-heading"><div><div class="mini-label">TRACK YOUR ASCENT</div><h2>Current location</h2></div><span class="manual-tag">MANUAL TRACKING</span></div>
+            <div class="field-row"><label class="field"><span>REGION</span><select id="regionSelect" aria-label="Select region"></select></label><label class="field floor-field"><span>FLOOR</span><div class="stepper"><button id="floorMinus" aria-label="Previous floor">−</button><input id="floorInput" type="number" min="1" max="16" value="1" inputmode="numeric" aria-label="Floor number"><button id="floorPlus" aria-label="Next floor">+</button></div></label></div>
+            <div class="field-label">CURRENT ROOM</div><div class="room-picker" id="roomPicker" role="group" aria-label="Current room type"></div>
+            <div class="route-heading"><span>FLOOR NOTES · <strong id="floorProgress">1 OF 16</strong></span><button class="text-button" id="clearRoute">Clear region</button></div>
+            <div class="floor-track" id="floorTrack" aria-label="Floors in current region"></div>
+            <label class="notes-label" for="floorNotes">ROOM NOTES <span>Saved for this floor</span></label>
+            <textarea id="floorNotes" rows="2" placeholder="e.g. Elite ahead, saved potion, shop on next branch…"></textarea>
+            <p class="fineprint">This is a manual progress tracker, not a recreation of your randomly generated in-game map.</p>
+          </section>
+
+          <section class="panel encounter-panel">
+            <div class="panel-heading"><div><div class="mini-label">COMBAT REFERENCE</div><h2>Enemy intel</h2></div><span class="count-pill" id="regionCount">— ENEMIES</span></div>
+            <label class="search-box"><span aria-hidden="true">⌕</span><input id="quickSearch" type="search" placeholder="Search an enemy or boss…" autocomplete="off" aria-label="Search enemies"></label>
+            <div class="filter-row" id="quickFilters" role="group" aria-label="Enemy type filter"><button class="filter active" data-filter="All">All</button><button class="filter" data-filter="Normal">Normal</button><button class="filter" data-filter="Elite">Elites</button><button class="filter" data-filter="Boss">Bosses</button></div>
+            <div class="enemy-grid" id="quickEnemyGrid"></div>
+            <button id="seeAllButton" class="outline-button">Open full bestiary <span>↗</span></button>
+          </section>
+        </div>
+      </main>
+
+      <main id="bestiaryView" class="page" hidden>
+        <div class="page-head"><span class="mini-label">THE CREATURES OF THE SPIRE</span><h1>Enemy bestiary</h1><p>Find attack intents, move lists and documented AI patterns. Tap a creature to inspect it.</p></div>
+        <div class="bestiary-controls panel"><label class="search-box big-search"><span aria-hidden="true">⌕</span><input id="allSearch" type="search" placeholder="Search the entire bestiary…" autocomplete="off" aria-label="Search all enemies"></label><select id="bestiaryRegion" aria-label="Filter by region"></select><select id="bestiaryType" aria-label="Filter by type"><option value="All">All types</option><option value="Normal">Normal</option><option value="Elite">Elite</option><option value="Boss">Boss</option></select></div>
+        <div class="library-heading"><h2 id="allResultCount">Enemies</h2><span class="mini-label">SELECT TO VIEW PATTERNS</span></div>
+        <div class="bestiary-grid" id="allEnemyGrid"></div>
+      </main>
+
+      <main id="aboutView" class="page" hidden>
+        <div class="page-head"><span class="mini-label">READ BEFORE YOUR NEXT BATTLE</span><h1>How this works</h1><p>Your second-screen companion. No account, no login, no build tools.</p></div>
+        <section class="about-grid">
+          <article class="panel info-card"><span class="info-symbol">01</span><h2>Pick your current region</h2><p>Act 1 can be Overgrowth or Underdocks. Act 2 is the Hive, and Act 3 is Glory. Set the floor and room manually as you play.</p></article>
+          <article class="panel info-card"><span class="info-symbol">02</span><h2>Inspect an enemy</h2><p>Tap its image. Its move list, documented AI rule and attack values appear in the details panel. Damage may vary with ascension, buffs and patches.</p></article>
+          <article class="panel info-card"><span class="info-symbol">03</span><h2>Plan around uncertainty</h2><p>A true fixed cycle can show the next move. Random or conditional AI cannot be predicted reliably; those screens show possible moves instead of pretending to know the future.</p></article>
+          <article class="panel info-card"><span class="info-symbol">04</span><h2>Keep your place</h2><p>Your region, current floor, notes, room tags and most recently viewed enemy are saved only on this device using your browser's local storage.</p></article>
+        </section>
+        <section class="panel sources-panel"><h2>Data and artwork</h2><p>Enemy information is requested from <a href="https://github.com/ptrlrd/spire-codex" target="_blank" rel="noopener noreferrer">Spire Codex</a> (public community game-data reference) when online. Creature images load from the source's image CDN. The four region illustrations included in this project are custom SVG artwork. A smaller offline sample keeps the tracker and example enemies usable if the database is unavailable.</p><p>Game information and creature art belong to <a href="https://www.megacrit.com/" target="_blank" rel="noopener noreferrer">Mega Crit</a>. This unofficial fan tool is not endorsed by them. Recheck move values after game patches. <a href="https://slaythespire.wiki.gg/wiki/Slay_the_Spire_2:Monsters" target="_blank" rel="noopener noreferrer">Community wiki ↗</a></p><div class="settings-line"><label for="ascToggle">Show Ascension 9+ damage where available</label><input id="ascToggle" type="checkbox"></div><div class="settings-line"><label for="allActsToggle">Include enemies from all acts in the run search</label><input id="allActsToggle" type="checkbox"></div><div class="settings-line"><span>Update enemy data</span><button id="refreshData" class="outline-button small">Refresh database</button></div></section>
+      </main>
+
+      <footer class="footer"><span>SPIRE ATLAS · BUILT FOR GITHUB PAGES</span><span>V1.00</span></footer>
+    </div>
+  </div>
+
+  <div class="detail-backdrop" id="detailBackdrop" hidden></div>
+  <aside class="detail-drawer" id="detailDrawer" role="dialog" aria-modal="true" aria-labelledby="detailName" aria-hidden="true" tabindex="-1">
+    <div class="drawer-top"><span class="mini-label">ENEMY DOSSIER</span><button class="close-button" id="closeDetail" aria-label="Close enemy details">✕</button></div>
+    <div class="drawer-scroll">
+      <div class="detail-art"><div class="detail-aura"></div><img id="detailImage" alt="Enemy artwork" loading="lazy"><div class="detail-fallback" id="detailFallback" aria-hidden="true">✦</div></div>
+      <div class="detail-title"><span class="type-label" id="detailType">NORMAL</span><h2 id="detailName">Enemy</h2><p id="detailRegion">Act 1 · Overgrowth</p></div>
+      <div class="detail-stats"><div><span>HP RANGE</span><strong id="detailHp">—</strong></div><div><span>AI STYLE</span><strong id="detailStyle">—</strong></div></div>
+      <div class="detail-section"><div class="mini-label">ATTACK PATTERN</div><h3 id="patternTitle">Move behavior</h3><p class="pattern-description" id="patternDescription"></p>
+        <div class="next-move" aria-live="polite">
+          <div class="next-move-top"><span id="nextMoveLabel">NEXT MOVE UNCERTAIN</span><div class="turn-controls" aria-label="Inspect turn number"><button id="turnMinus" type="button" aria-label="Previous combat turn">−</button><span id="turnValue">TURN 1</span><button id="turnPlus" type="button" aria-label="Next combat turn">+</button><button id="turnReset" type="button" aria-label="Reset to combat turn 1" title="Back to turn 1">↺</button></div></div>
+          <strong id="nextMoveName">Check in-game intent</strong><small id="nextMoveDetail">Select an enemy to see what can be predicted.</small>
+        </div>
+        <div id="moveTimeline" class="move-timeline"></div><p class="pattern-warning" id="patternWarning"></p></div>
+      <div class="detail-section"><div class="move-section-head"><div><div class="mini-label">MOVE REFERENCE</div><h3>Possible moves</h3></div><span class="move-count" id="moveCount">—</span></div><div id="moveList" class="move-list"></div></div>
+      <div class="drawer-source"><a id="externalGuide" target="_blank" rel="noopener noreferrer">View source reference ↗</a><span>Live game values may differ due to updates, strength, weak, or other effects.</span></div>
+    </div>
+  </aside>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
