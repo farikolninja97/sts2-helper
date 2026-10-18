@@ -1,51 +1,52 @@
-# Spire Atlas · Unofficial Slay the Spire 2 companion
+# Spire Atlas — Slay the Spire 2 enemy move companion
 
-**V1.00** · Responsive GitHub Pages website · No server · No login
+**V1.01** · GitHub Pages ready · Mobile and desktop · Static HTML/CSS/JS, no build step.
 
-This is a second-screen **manual** run tracker and enemy move reference for *Slay the Spire 2*. It cannot detect your position inside the game, read save files, or guarantee random enemy intents.
+This is a fan-made second-screen **enemy attack guide** for *Slay the Spire 2*. It does **not** read the game process or save files and cannot predict random/conditional enemy intents.
 
-## Features
+## What's new in V1.01
 
-- Four illustrated regions: **Overgrowth**, **Underdocks**, **Hive**, **Glory**.
-- Save your region, in-game floor, current room, visited floors, and notes locally in your browser.
-- Default *single-player* floors: Act 1 **1–17** (Overgrowth or Underdocks), Act 2 **18–33** (Hive), Act 3 **34–49** (Glory). Multiplayer, Golden Compass, and other mechanics can alter floor numbering; this is a simple default tracker, not a literal generated route map.
-- Search by enemy name, region, or **Normal / Elite / Boss**.
-- Monster portrait images, HP, move lists, intents, per-move damage/block/powers, and community-documented AI patterns.
-- A turn selector predicts a move **only when the source explicitly describes an opener or linked cycle**. For conditional or random enemies, it clearly says the future move is uncertain.
-- Optional Ascension 9+ damage display where the source specifies values.
-- Original region illustrations bundled in `assets/`, and an offline **small demo sample** of enemies.
+- **Enemy moves are the homepage**, with a game-inspired dark fantasy combat stage, artwork, attack intent, damage, selectable region and search.
+- **Floor tracker is its own page**, accessible from the header, home page shortcut, or navigation button. Existing V1.00 floor notes/progress still use the same browser storage key.
+- **Strength carries over across turns.** In a completely documented linked cycle, self-applied Strength on earlier turns automatically adds to each later attack hit. For instance, a 3-damage attack after +15 Strength shows **18 damage**; 9 × 2 after +3 Strength shows **12 × 2 (24 total)**.
+- For variable/conditional enemies, use **Record moves**. After the enemy actually uses a move, press its **Record move +** button. The app recalculates potential attacks based on previously logged buffs. **Undo**, **New fight**, and **Other STR +/-** are included.
+- The turn timeline and current move show buff-adjusted values. Creature images are requested online from the community art source, with a visual fallback when an image cannot be loaded.
+- Added an offline Axebot example so multi-hit damage calculations can be tried without the database.
 
-## Put it on GitHub Pages
+## Deployment to GitHub Pages
 
-1. Download and **unzip** the project.
-2. In GitHub, create a new public repository, e.g. `spire-atlas`.
-3. Upload the **contents** of this folder to your repo's root: `index.html`, `styles.css`, `app.js`, `README.md`, and `assets/`. Do not just upload the ZIP.
-4. In **Settings → Pages**, under **Build and deployment**, choose **Deploy from a branch**.
-5. Select `main` and `/(root)`, then **Save**.
-6. Your site will normally be `https://YOUR-USERNAME.github.io/spire-atlas/` after GitHub finishes publishing.
+1. Extract the ZIP.
+2. Upload **`index.html`, `app.js`, `styles.css`, `README.md`, and the complete `assets/` folder** into the root of your GitHub repository.
+3. In your repository select **Settings → Pages → Deploy from a branch**, choose `main` and `/(root)`, then **Save**.
+4. Your site typically appears at `https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/` after GitHub deploys.
 
-It is static HTML/CSS/JavaScript — no npm, database, or tokens required.
+To update your existing Spire Atlas, **replace the files** with these new V1.01 versions. The app uses the same storage key as V1.00 to preserve your previous location data on the same browser and origin.
 
-## Test locally
+No install, backend, credentials, API keys, database, or framework needed. Open `index.html` directly to try offline sample data, or host it to fetch the full community database.
 
-You can open `index.html` directly to try the included demo data. For the full bestiary, serve the directory over HTTP (some browsers block remote `fetch` when opening a `file://` page):
+## How damage prediction works
 
-```sh
-python3 -m http.server 8000
-```
+**Automatic / Documented cycle:** Only use when the parsed source data explicitly supplies linked move transitions. The preview on turn N includes eligible `STRENGTH` powers that the enemy applied **to itself before turn N**. Positive and negative Strength change *each hit*, with damage floored at 0 per hit. Multi-hit attack counts are accounted for.
 
-Open `http://localhost:8000` on the same device.
+**Record moves:** For enemies with randomness or conditional actions, the guide does not guess. After seeing an actual move, tap **Record move +** next to that move in the list. Recorded self Strength adds to the enemy's next attack previews. Undo removes the most recent logged move. The **Other STR** +/- buttons add or subtract Strength from **other sources not already recorded**, such as effects from another creature, a card, or an unlisted power.
 
-## Enemy data, internet, and artwork
+**Important limits:** Strength modifiers are a planning aid, not a game-state simulator. Other effects (e.g. Weak, Vulnerable, Ritual, special multipliers and any condition-driven strength gain), current-turn execution order, ascension-specific exceptions and combat triggers are **not fully simulated**. Only static direct self Strength powers are counted automatically. Buffs applied on the *current* move are intentionally counted starting the *next* turn, rather than assuming a particular execution order. Use the game's displayed attack intent as authoritative. Community data may be inaccurate or change with patches.
 
-At page load the browser requests a current English monster JSON database from the public [Spire Codex repository](https://github.com/ptrlrd/spire-codex) and falls back to the [Spire Codex API](https://spire-codex.com/developers) if needed. The JSON contains the enemy info and source image paths. Images load from an **external** Spire Codex service while online. The source service can change without notice. The database is cached in browser local storage after a successful download; pictures aren't bundled. If the source is unavailable, a small bundled demo and stylized placeholders keep the manual tracker working. That demo is **not** the complete game bestiary.
+Sample demonstrations: Choose **Act 2 → Hive → Bowlbug (Nectar)**, advance to turn 3 and see 3 → 18 damage after +15 Strength. For multi-hit manual testing, choose **Act 3 → Glory → Axebot**, record **Boot Up** (+3 Strength), and inspect **One Two** (9 × 2 → 12 × 2).
 
-Only explicit state-machine transitions are presented as a deterministic turn order. A fixed opening move isn't proof of a fixed future pattern. Some parsed states may be incomplete and even deterministic opponents can deviate due to conditions or future game patches. Always trust the game's live attack intent. Stats may vary by difficulty, buffs, and updates.
+## More features
 
-All game names, monster imagery and extracted game information belong to **Mega Crit Games**. Data source: [Spire Codex](https://github.com/ptrlrd/spire-codex), subject to its [public API terms](https://github.com/ptrlrd/spire-codex/blob/main/API_TERMS.md). Unofficial, noncommercial fan reference; not affiliated with Mega Crit or Spire Codex. The four region SVG backgrounds are original artwork generated for this website.
+- Regions: Overgrowth, Underdocks, Hive and Glory, with four included original SVG illustrations.
+- Browser-saved floor, room type, visited floors, floor notes, enemy selection and manual combat journals.
+- Full bestiary, with categories Normal / Elite / Boss, artwork, AI style and a detail drawer.
+- Ascension 9+ data mode where supplied by the source.
+- Offline mini bestiary and external enemy artwork fallbacks.
+- Version `V1.01` shown in the footer.
 
-## Data privacy and updating
+## Sources and attribution
 
-Progress and cached monster JSON live in **this browser's localStorage**. They are not synced across devices or sent to this project creator. External image and data providers still receive ordinary browser requests. Browser storage can be cleared at any time.
+Enemy moves, attacks, stats and remote enemy artwork are pulled from the public [Spire Codex](https://github.com/ptrlrd/spire-codex) reference and its image servers, subject to its [API terms](https://github.com/ptrlrd/spire-codex/blob/main/API_TERMS.md). The remote source may be unreachable or change URLs. An offline sample of enemies remains available. Monster art isn't bundled.
 
-For a site update, edit the source and increase the visible footer version, e.g. `V1.01`, then `V1.02`.
+*Slay the Spire 2*, original game characters, monsters and game artwork belong to **Mega Crit**. This is an unofficial noncommercial fan tool, unaffiliated with Mega Crit or Spire Codex. The included region SVGs and this website's interface are original fan creations.
+
+Progress and monster data cache are stored in your browser's `localStorage`. External image/data services receive regular requests when you are connected. If you clear browser storage, your tracking data is lost.

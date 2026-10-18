@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#0d1017">
+  <meta name="theme-color" content="#160e14">
   <meta name="description" content="A fan-made Slay the Spire 2 run tracker and enemy move guide, designed for mobile and GitHub Pages.">
   <title>Spire Atlas — Slay the Spire 2 Companion</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -17,7 +17,8 @@
       </a>
       <div class="sidebar-label">YOUR COMPANION</div>
       <nav class="nav-menu" aria-label="Views">
-        <button class="nav-link active" data-view="run"><span class="nav-icon">◈</span> Run tracker <span class="nav-arrow">›</span></button>
+        <button class="nav-link active" data-view="combat"><span class="nav-icon">⚔</span> Enemy moves <span class="nav-arrow">›</span></button>
+        <button class="nav-link" data-view="run"><span class="nav-icon">⌖</span> Floor tracker <span class="nav-arrow">›</span></button>
         <button class="nav-link" data-view="bestiary"><span class="nav-icon">♜</span> Enemy bestiary <span class="nav-arrow">›</span></button>
         <button class="nav-link" data-view="about"><span class="nav-icon">◇</span> Guide & sources <span class="nav-arrow">›</span></button>
       </nav>
@@ -32,14 +33,50 @@
 
     <div class="content-area">
       <header class="topbar">
-        <div class="topbar-title"><span class="eyebrow">FIELD GUIDE / <span id="breadcrumb">YOUR RUN</span></span><div class="topbar-sub">Keep the next move in sight.</div></div>
+        <div class="topbar-title"><span class="eyebrow">SPIRE ATLAS / <span id="breadcrumb">ENEMY MOVES</span></span><div class="topbar-sub">Read the intent. Survive the turn.</div></div>
         <div class="topbar-actions">
-          <span class="save-chip" id="saveStatus">● Saved locally</span>
+          <button type="button" class="topbar-track" id="floorShortcut">⌖ Floor tracker</button><span class="save-chip" id="saveStatus">● Saved locally</span>
           <button class="icon-button" id="helpButton" aria-label="How to use this guide" title="How to use">?</button>
         </div>
       </header>
 
-      <main id="runView" class="page">
+
+      <main id="combatView" class="page combat-page">
+        <div class="combat-header">
+          <div><span class="mini-label">BESTIARY // COMBAT INTELLIGENCE</span><h1>Know their next move<span class="title-mark">✦</span></h1><p>Study attack cycles, log actual moves, and see Strength buffs carry into later hits.</p></div>
+          <div class="combat-header-actions"><label class="asc-switch"><input type="checkbox" id="combatAscToggle"><span>ASCENSION 9+ DAMAGE</span></label><button id="combatTrackerLink" class="compass-button" type="button"><span>⌖</span><span>OPEN FLOOR TRACKER<small id="combatLocation">ACT I · FLOOR 01</small></span><span>›</span></button></div>
+        </div>
+        <div class="combat-layout">
+          <section class="combat-roster panel" aria-label="Choose an enemy">
+            <div class="combat-roster-head"><span class="mini-label">CHOOSE YOUR FOE</span><strong id="combatCount">— ENEMIES</strong></div>
+            <label class="search-box combat-search"><span aria-hidden="true">⌕</span><input id="combatSearch" type="search" placeholder="Search enemies..." autocomplete="off" aria-label="Search enemy moves"></label>
+            <select id="combatRegion" aria-label="Filter enemies by region"></select>
+            <div class="filter-row combat-filters" id="combatFilters" role="group" aria-label="Enemy type"><button class="filter active" data-filter="All">All</button><button class="filter" data-filter="Normal">Normal</button><button class="filter" data-filter="Elite">Elite</button><button class="filter" data-filter="Boss">Boss</button></div>
+            <div id="combatEnemyList" class="combat-enemy-list"></div>
+            <p class="roster-note">Select an enemy to view its moves. Damage is an estimate; trust the game's intent.</p>
+          </section>
+          <div class="combat-center">
+            <section class="combat-stage" id="combatStage" aria-label="Selected enemy">
+              <div class="stage-backdrop" id="combatStageBackdrop"></div>
+              <div class="stage-topline"><span id="combatRegionLabel">ACT I · THE OVERGROWTH</span><span class="stage-corner" id="combatType">NORMAL ENCOUNTER</span></div>
+              <div class="stage-intent"><span class="stage-intent-icon" id="combatIntentIcon">⚔</span><div><span>NEXT INTENT</span><strong id="combatIntentText">SELECT A FOE</strong></div></div>
+              <div class="stage-art"><div class="stage-art-glow"></div><img id="combatArt" alt="Selected enemy artwork"><span class="stage-fallback" id="combatArtFallback" aria-hidden="true">✦</span></div>
+              <div class="stage-nameplate"><span class="nameplate-rule"></span><div><h2 id="combatEnemyName">Choose an enemy</h2><span id="combatHp">— HP</span></div><span class="nameplate-rule"></span></div>
+            </section>
+            <section class="combat-readout panel" id="combatReadout" aria-live="polite">
+              <div class="readout-upper"><div><span class="mini-label">THE NEXT ACTION</span><h2 id="combatNextMove">Select an enemy to begin</h2><p id="combatMoveInfo">Known patterns and possible attacks will appear here.</p></div><div class="damage-sigil"><small id="combatDamageCaption">INCOMING</small><strong id="combatDamage">—</strong><span id="combatDamageUnits">DAMAGE</span></div></div>
+              <div class="damage-breakdown" id="combatDamageBreakdown">Damage preview includes previous Strength buffs where the sequence is documented.</div>
+              <div class="strength-row"><div class="strength-medallion">✣</div><div><span class="mini-label">ENEMY STRENGTH BEFORE THIS TURN</span><strong id="combatStrength">+0 Strength</strong><small id="combatBuffSummary">No Strength buffs recorded.</small></div><div class="other-str-control" title="Extra Strength from cards or other unlisted effects (not the buffs already tracked)"><span>OTHER STR</span><div><button id="extraStrengthMinus" aria-label="Decrease other Strength">−</button><strong id="extraStrengthValue">0</strong><button id="extraStrengthPlus" aria-label="Increase other Strength">+</button></div></div></div>
+              <div class="combat-mode-row"><div><span class="mini-label">PATTERN MODE</span><div class="mode-switch" id="combatModeSwitch"><button type="button" data-mode="auto" class="selected">Documented cycle</button><button type="button" data-mode="manual">Record moves</button></div></div><div class="combat-turn-box"><span class="mini-label">COMBAT TURN</span><div><button type="button" id="combatPrev" aria-label="Previous turn">−</button><strong id="combatTurn">1</strong><button type="button" id="combatNext" aria-label="Next turn">+</button></div></div></div>
+              <p id="combatUncertainty" class="combat-uncertainty">Select an opponent. Conditional and random moves cannot be predicted.</p>
+            </section>
+            <section class="combat-timeline-panel panel"><div class="combat-section-title"><div><span class="mini-label">SEQUENCE</span><h2>Turn by turn</h2></div><button id="combatReset" class="mini-action" type="button">↺ New fight</button></div><div id="combatTimeline" class="combat-timeline"></div><div class="manual-actions" id="combatManualActions" hidden><button type="button" id="combatUndo" class="mini-action">↶ Undo last logged move</button><span>Tap “Record move” below after each enemy action.</span></div></section>
+            <section class="combat-possible panel"><div class="combat-section-title"><div><span class="mini-label">THE ARSENAL</span><h2>All possible moves</h2></div><span id="combatMoveCount" class="mini-label">— MOVES</span></div><div class="combat-possible-list" id="combatPossibleList"></div><p class="combat-reference"><span id="combatPatternNotes">Moves may depend on conditions or randomness.</span><a id="combatSourceLink" target="_blank" rel="noopener noreferrer">Source ↗</a></p></section>
+          </div>
+        </div>
+      </main>
+      <main id="runView" class="page" hidden>
+        <div class="tracker-page-top"><span class="mini-label">YOUR RUN / MANUAL PROGRESS</span><button type="button" id="backToMoves" class="back-to-moves">← Back to enemy moves</button></div>
         <section class="hero" id="hero">
           <img class="hero-image" id="heroImage" src="assets/overgrowth.svg" alt="Illustration of the current region">
           <div class="hero-overlay"></div>
@@ -47,7 +84,7 @@
           <div class="hero-floor"><span>YOU ARE ON</span><strong>FLOOR <span id="heroFloor">01</span></strong></div>
         </section>
 
-        <div class="section-grid">
+        <div class="tracker-grid">
           <section class="panel run-panel">
             <div class="panel-heading"><div><div class="mini-label">TRACK YOUR ASCENT</div><h2>Current location</h2></div><span class="manual-tag">MANUAL TRACKING</span></div>
             <div class="field-row"><label class="field"><span>REGION</span><select id="regionSelect" aria-label="Select region"></select></label><label class="field floor-field"><span>FLOOR</span><div class="stepper"><button id="floorMinus" aria-label="Previous floor">−</button><input id="floorInput" type="number" min="1" max="16" value="1" inputmode="numeric" aria-label="Floor number"><button id="floorPlus" aria-label="Next floor">+</button></div></label></div>
@@ -59,13 +96,6 @@
             <p class="fineprint">This is a manual progress tracker, not a recreation of your randomly generated in-game map.</p>
           </section>
 
-          <section class="panel encounter-panel">
-            <div class="panel-heading"><div><div class="mini-label">COMBAT REFERENCE</div><h2>Enemy intel</h2></div><span class="count-pill" id="regionCount">— ENEMIES</span></div>
-            <label class="search-box"><span aria-hidden="true">⌕</span><input id="quickSearch" type="search" placeholder="Search an enemy or boss…" autocomplete="off" aria-label="Search enemies"></label>
-            <div class="filter-row" id="quickFilters" role="group" aria-label="Enemy type filter"><button class="filter active" data-filter="All">All</button><button class="filter" data-filter="Normal">Normal</button><button class="filter" data-filter="Elite">Elites</button><button class="filter" data-filter="Boss">Bosses</button></div>
-            <div class="enemy-grid" id="quickEnemyGrid"></div>
-            <button id="seeAllButton" class="outline-button">Open full bestiary <span>↗</span></button>
-          </section>
         </div>
       </main>
 
@@ -79,15 +109,15 @@
       <main id="aboutView" class="page" hidden>
         <div class="page-head"><span class="mini-label">READ BEFORE YOUR NEXT BATTLE</span><h1>How this works</h1><p>Your second-screen companion. No account, no login, no build tools.</p></div>
         <section class="about-grid">
-          <article class="panel info-card"><span class="info-symbol">01</span><h2>Pick your current region</h2><p>Act 1 can be Overgrowth or Underdocks. Act 2 is the Hive, and Act 3 is Glory. Set the floor and room manually as you play.</p></article>
-          <article class="panel info-card"><span class="info-symbol">02</span><h2>Inspect an enemy</h2><p>Tap its image. Its move list, documented AI rule and attack values appear in the details panel. Damage may vary with ascension, buffs and patches.</p></article>
+          <article class="panel info-card"><span class="info-symbol">01</span><h2>Check enemy moves first</h2><p>The home screen shows enemy attacks and effects. Use the Floor tracker button when you want to update your run. Act 1 can be Overgrowth or Underdocks. Act 2 is the Hive, and Act 3 is Glory. Set the floor and room manually as you play.</p></article>
+          <article class="panel info-card"><span class="info-symbol">02</span><h2>Inspect an enemy</h2><p>Pick its portrait. Documented cycles automatically add previous self-applied Strength to future attacks. For uncertain AI, record the actual moves to keep a running Strength total. Other modifiers still require reading in-game intent.</p></article>
           <article class="panel info-card"><span class="info-symbol">03</span><h2>Plan around uncertainty</h2><p>A true fixed cycle can show the next move. Random or conditional AI cannot be predicted reliably; those screens show possible moves instead of pretending to know the future.</p></article>
-          <article class="panel info-card"><span class="info-symbol">04</span><h2>Keep your place</h2><p>Your region, current floor, notes, room tags and most recently viewed enemy are saved only on this device using your browser's local storage.</p></article>
+          <article class="panel info-card"><span class="info-symbol">04</span><h2>Keep your place</h2><p>Your region, floor, notes, room tags, most recently viewed enemy and recorded moves are saved on this device using browser local storage.</p></article>
         </section>
-        <section class="panel sources-panel"><h2>Data and artwork</h2><p>Enemy information is requested from <a href="https://github.com/ptrlrd/spire-codex" target="_blank" rel="noopener noreferrer">Spire Codex</a> (public community game-data reference) when online. Creature images load from the source's image CDN. The four region illustrations included in this project are custom SVG artwork. A smaller offline sample keeps the tracker and example enemies usable if the database is unavailable.</p><p>Game information and creature art belong to <a href="https://www.megacrit.com/" target="_blank" rel="noopener noreferrer">Mega Crit</a>. This unofficial fan tool is not endorsed by them. Recheck move values after game patches. <a href="https://slaythespire.wiki.gg/wiki/Slay_the_Spire_2:Monsters" target="_blank" rel="noopener noreferrer">Community wiki ↗</a></p><div class="settings-line"><label for="ascToggle">Show Ascension 9+ damage where available</label><input id="ascToggle" type="checkbox"></div><div class="settings-line"><label for="allActsToggle">Include enemies from all acts in the run search</label><input id="allActsToggle" type="checkbox"></div><div class="settings-line"><span>Update enemy data</span><button id="refreshData" class="outline-button small">Refresh database</button></div></section>
+        <section class="panel sources-panel"><h2>Data and artwork</h2><p>Enemy information is requested from <a href="https://github.com/ptrlrd/spire-codex" target="_blank" rel="noopener noreferrer">Spire Codex</a> (public community game-data reference) when online. Creature images load from the source's image CDN. The four region illustrations included in this project are custom SVG artwork. A smaller offline sample keeps the tracker and example enemies usable if the database is unavailable.</p><p>Game information and creature art belong to <a href="https://www.megacrit.com/" target="_blank" rel="noopener noreferrer">Mega Crit</a>. This unofficial fan tool is not endorsed by them. Recheck move values after game patches. <a href="https://slaythespire.wiki.gg/wiki/Slay_the_Spire_2:Monsters" target="_blank" rel="noopener noreferrer">Community wiki ↗</a></p><div class="settings-line"><label for="ascToggle">Show Ascension 9+ damage where available</label><input id="ascToggle" type="checkbox"></div><div class="settings-line"><span>Update enemy data</span><button id="refreshData" class="outline-button small">Refresh database</button></div></section>
       </main>
 
-      <footer class="footer"><span>SPIRE ATLAS · BUILT FOR GITHUB PAGES</span><span>V1.00</span></footer>
+      <footer class="footer"><span>SPIRE ATLAS · UNOFFICIAL FAN COMPANION · GITHUB PAGES</span><span>V1.01</span></footer>
     </div>
   </div>
 
@@ -99,7 +129,7 @@
       <div class="detail-title"><span class="type-label" id="detailType">NORMAL</span><h2 id="detailName">Enemy</h2><p id="detailRegion">Act 1 · Overgrowth</p></div>
       <div class="detail-stats"><div><span>HP RANGE</span><strong id="detailHp">—</strong></div><div><span>AI STYLE</span><strong id="detailStyle">—</strong></div></div>
       <div class="detail-section"><div class="mini-label">ATTACK PATTERN</div><h3 id="patternTitle">Move behavior</h3><p class="pattern-description" id="patternDescription"></p>
-        <div class="next-move" aria-live="polite">
+        <div class="drawer-strength-readout" id="detailStrength">Strength buffs from earlier turns: +0</div><div class="next-move" aria-live="polite">
           <div class="next-move-top"><span id="nextMoveLabel">NEXT MOVE UNCERTAIN</span><div class="turn-controls" aria-label="Inspect turn number"><button id="turnMinus" type="button" aria-label="Previous combat turn">−</button><span id="turnValue">TURN 1</span><button id="turnPlus" type="button" aria-label="Next combat turn">+</button><button id="turnReset" type="button" aria-label="Reset to combat turn 1" title="Back to turn 1">↺</button></div></div>
           <strong id="nextMoveName">Check in-game intent</strong><small id="nextMoveDetail">Select an enemy to see what can be predicted.</small>
         </div>
